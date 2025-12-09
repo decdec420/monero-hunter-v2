@@ -1,0 +1,58 @@
+{
+  "name": "monero-hunter-v2",
+  "version": "1.0.0",
+  "description": "M1 MacBook Pro mining companion for Monero",
+  "type": "module",
+  "main": "dist/main/index.js",
+  "homepage": "./",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
+    "dev:vite": "vite",
+    "dev:electron": "wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 tsx --tsconfig src/main/tsconfig.json src/main/index.ts",
+    "build": "npm run build:renderer && npm run build:main && npm run build:preload",
+    "build:renderer": "vite build",
+    "build:main": "tsc -p src/main/tsconfig.json",
+    "build:preload": "tsc src/main/preload.ts --outDir dist/preload --module ESNext --target ES2020 --moduleResolution bundler --esModuleInterop --skipLibCheck",
+    "electron:build": "npm run build && electron-builder",
+    "type-check": "tsc --noEmit",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.10.3",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "electron": "^27.3.11",
+    "electron-builder": "^24.6.4",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "wait-on": "^7.0.1"
+  },
+  "build": {
+    "appId": "com.monero-hunter.v2",
+    "productName": "Monero Hunter v2",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "dist/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": ["dmg"]
+    }
+  }
+}

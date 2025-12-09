@@ -1,0 +1,51 @@
+{
+  "name": "monero-hunter-v2",
+  "version": "2.0.0",
+  "description": "Monero Mining Dashboard for Intel Mac",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "axios": "^1.6.5",
+    "zustand": "^4.5.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "electron": "^27.3.11",
+    "electron-builder": "^24.6.4",
+    "electron-vite": "^2.3.0",
+    "postcss": "^8.4.32",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
+  },
+  "build": {
+    "appId": "com.monero-hunter.v2",
+    "productName": "Monero Hunter v2",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": {
+        "target": "dmg",
+        "arch": [
+          "x64"
+        ]
+      }
+    }
+  }
+}
