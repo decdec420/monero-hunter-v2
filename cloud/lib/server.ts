@@ -2,6 +2,7 @@ import { getDb } from '@/db';
 import { observations } from '@/db/schema';
 import { desc } from 'drizzle-orm';
 import type { Market } from './economics';
+import { parseMarket } from './market';
 export function checkWrite(req: Request) {
   // Owner-private Sites dispatch enforces authentication before this Worker.
   // Do not change the audience without adding application-level authorization.
@@ -32,8 +33,7 @@ export async function market(): Promise<{market:Market|null;error:string|null}> 
       fetchJson('https://api.xmrig.com/1/network/XMR'),
       fetchJson('https://api.coingecko.com/api/v3/simple/price?ids=monero&vs_currencies=usd&include_last_updated_at=true')
     ]);
-    const m: Market = {price:price.monero?.usd,network:network.difficulty/network.target,sourceAt:Math.min(price.monero?.last_updated_at*1000,network.timestamp),capturedAt:now};
-    if (![m.price,m.network,m.sourceAt].every(v=>Number.isFinite(v)&&v>0) || m.sourceAt>now+60_000 || now-m.sourceAt>15*60_000) throw new Error('Upstream data is invalid or older than 15 minutes.');
+    const m = parseMarket(network,price,now);
     await db.insert(observations).values({...m,bucket:Math.floor(now/120_000)}).onConflictDoNothing();
     return {market:m,error:null};
   } catch {return {market:cached??null,error:'Live sources unavailable. Last valid observation is shown; stale data blocks qualification.'};}

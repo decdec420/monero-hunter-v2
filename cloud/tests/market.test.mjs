@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import ts from 'typescript';
+import { readFileSync } from 'node:fs';
+const code=ts.transpileModule(readFileSync(new URL('../lib/market.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const {parseMarket}=await import('data:text/javascript;base64,'+Buffer.from(code).toString('base64'));
+const now=1791834155000;
+const n={coin:'XMR',difficulty:763410759052,target:120,ts:1791834115721,algo:'rx/0'};
+const p={monero:{usd:534.41,last_updated_at:1791834131}};
+test('real XMRig ts field and CoinGecko seconds timestamp parse correctly',()=>{assert.deepEqual(parseMarket(n,p,now),{price:534.41,network:n.difficulty/120,sourceAt:n.ts,capturedAt:now});});
+test('missing source timestamp is never replaced with retrieval time',()=>{assert.throws(()=>parseMarket({...n,ts:undefined},p,now));assert.throws(()=>parseMarket(n,{monero:{usd:534.41}},now));});
+test('either future-dated upstream must be rejected even when the other is recent',()=>{assert.throws(()=>parseMarket({...n,ts:now+120000},p,now));assert.throws(()=>parseMarket(n,{monero:{usd:534.41,last_updated_at:(now+120000)/1000}},now));});
+test('stale, negative, string, wrong coin and algorithm data fail closed',()=>{for(const changed of [{ts:now-900001},{difficulty:-1},{difficulty:'763410759052'},{coin:'BTC'},{algo:'ghostrider'}])assert.throws(()=>parseMarket({...n,...changed},p,now));assert.throws(()=>parseMarket(n,{monero:{usd:NaN,last_updated_at:1791834131}},now));});
