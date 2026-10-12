@@ -1,0 +1,1 @@
+ALTER TABLE `observations` ADD `price_source` text DEFAULT 'CoinGecko' NOT NULL;

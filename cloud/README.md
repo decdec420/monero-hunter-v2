@@ -6,7 +6,7 @@ v3 replaces the old Electron control surface with a private web dashboard and a 
 
 ## What works
 
-- Live XMR USD pricing from CoinGecko and Monero network difficulty from XMRig's network API, fetched server-side. Market freshness is validated against upstream timestamps. Cache refresh is at most every two minutes per isolate/request flow; the dashboard polls every 30 seconds. No requests run merely because the page is closed.
+- Live XMR USD pricing from CoinGecko (with a Kraken XMR/USD trade-candle fallback) and Monero network difficulty from XMRig's network API, fetched server-side. Market freshness is validated against upstream timestamps. Cache refresh is at most every two minutes per isolate/request flow; the dashboard polls every 30 seconds. No requests run merely because the page is closed.
 - A 24-hour chart of real observations collected since use began; no fabricated historical returns or mock balances.
 - Saved owned-machine and cloud-rental scenarios with upfront cost recovery, full costs, fees, uptime, stressed returns, and a maximum acceptable hourly rental rate.
 - A candidate gate that requires fresh data (15 minutes), user-confirmed sustained RandomX performance and full costs, plus a 20% margin after revenue falls 25% and costs rise 10%.
@@ -80,3 +80,4 @@ The original v2 remains in Git history; it should not be used as a production mi
 - https://api.xmrig.com/1/network/XMR
 - https://xmrig.com/docs/miner/api
 - https://docs.coingecko.com/reference/simple-price
+- https://docs.kraken.com/api/docs/rest-api/get-ohlc-data/

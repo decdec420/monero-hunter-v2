@@ -1,5 +1,5 @@
 export const FRESH_MS = 15 * 60 * 1000;
-export type Market = { price: number; network: number; sourceAt: number; capturedAt: number };
+export type Market = { price: number; network: number; sourceAt: number; capturedAt: number; priceSource?: string };
 export type Plan = { id: string; name: string; kind: 'owned'|'rental'; hashrate: number; watts: number; tariff: number; rentHourly: number; overheadMonthly: number; upfront: number; termDays: number; poolPct: number; minerPct: number; sellPct: number; uptimePct: number; measured: boolean; costsConfirmed: boolean; algorithm: string };
 export type Entry = { id: string; kind: 'receipt'|'expense'; cents: number; description: string; reference: string; occurredAt: string; createdAt: number };
 export type Device = { id: string; name: string; hashrate: number; algorithm: string; uptime: number; accepted: number; rejected: number; watts: number|null; temperature: number|null; receivedAt: number };

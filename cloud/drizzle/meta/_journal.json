@@ -8,6 +8,13 @@
       "when": 1791833840105,
       "tag": "0000_careless_stingray",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791834522063,
+      "tag": "0001_amusing_nova",
+      "breakpoints": true
     }
   ]
 }
